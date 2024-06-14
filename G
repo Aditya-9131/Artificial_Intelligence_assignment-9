@@ -1,0 +1,5 @@
+# Artificial_Intelligence_assignment-9
+Given_question:->Explore the 8 Queens problem by defining the state space search through both incremental
+and complete state formulations. Proceed to solve the problem and analyze the solutions
+obtained using Greedy Best First Search (GBFS), and A* algorithm for comparison.
+—– Page
