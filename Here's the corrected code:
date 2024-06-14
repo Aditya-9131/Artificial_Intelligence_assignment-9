@@ -1,0 +1,65 @@
+import heapq
+
+def is_valid(board):
+
+    n = len(board)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if board[i] == board[j] or abs(board[i] - board[j]) == abs(i - j):
+                return False
+    return True
+
+def heuristic(board):
+
+    h = 0
+    n = len(board)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if board[i] == board[j] or abs(board[i] - board[j]) == abs(i - j):
+                h += 1
+    return h
+
+def gbfs(n):
+
+    frontier = [(heuristic([]), [])]
+    
+    while frontier:
+        _, current = heapq.heappop(frontier)
+        if len(current) == n:
+            return current
+        
+        for i in range(n):
+            if i not in current:
+                new_state = current + [i]
+                if is_valid(new_state):
+                    heapq.heappush(frontier, (heuristic(new_state), new_state))
+    return None
+
+def astar(n):
+
+    frontier = [(heuristic([]), 0, [])]
+    explored = set()
+    
+    while frontier:
+        _, cost, current = heapq.heappop(frontier)
+        if len(current) == n:
+            return current
+        
+        for i in range(n):
+            if i not in current:
+                new_state = current + [i]
+                if is_valid(new_state):
+                    new_cost = cost + 1
+                    heapq.heappush(frontier, (new_cost + heuristic(new_state), new_cost, new_state))
+                    explored.add(tuple(new_state))
+    return None
+    
+n = 8
+solution_gbfs = gbfs(n)
+solution_astar = astar(n)
+
+print("Solution using Greedy Best-First Search:")
+print(solution_gbfs)
+
+print("Solution using A* algorithm:")
+print(solution_astar)
